@@ -2,6 +2,7 @@ import asyncio
 import pprint
 
 import aiohttp
+
 from aiosteamist import Steamist
 
 
@@ -9,8 +10,6 @@ async def main():
     websession = aiohttp.ClientSession()
     steamist = Steamist("192.168.210.105", websession)
     devices = await steamist.async_get_status()
-    import pprint
-
     pprint.pprint(devices)
     await websession.close()
 
