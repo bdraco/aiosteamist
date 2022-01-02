@@ -1,5 +1,3 @@
-from aiosteamist.main import add
+from aiosteamist import SteamistStatus
 
-
-def test_add():
-    assert add(1, 1) == 2
+assert SteamistStatus(temp=75, temp_units="F", minute_remain=0, active=True).temp == 75
