@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import re
+from dataclasses import dataclass
+
 import aiohttp
 import xmltodict
-
-# from dataclasses import dataclass
-
 
 __author__ = """J. Nick Koston"""
 __email__ = "nick@koston.org"
@@ -14,8 +14,17 @@ DEFAULT_REQUEST_TIMEOUT = 10
 STATUS_ENDPOINT = "/status.xml"
 SET_ENDPOINT = "/leds.cgi"
 
+TEMP_REGEX = re.compile("([0-9]+)XF")
+
+
 STEAM_ON_LED = 6
 STEAM_OFF_LED = 7
+
+
+@dataclass
+class SteamistStatus:
+    temp: int | None
+    minutes_remaining: int
 
 
 class Steamist:
@@ -41,14 +50,16 @@ class Steamist:
             timeout=self._timeout,
             params=params,
         )
-        return await response.json()
+        return await response.text()
 
-    async def async_list_devices(self):
-        """Call api to list devices"""
+    async def async_get_status(self) -> SteamistStatus:
+        """Call api to get status."""
         data = xmltodict.parse(await self._get(STATUS_ENDPOINT))
-        import pprint
-
-        pprint.pprint(data)
+        response = data["response"]
+        groups = TEMP_REGEX.match(response["temp0"])
+        return SteamistStatus(
+            temp=groups[0] if groups else None, minutes_remaining=int(response["time0"])
+        )
 
     async def async_turn_on_steam(self, id: int) -> None:
         """Call to turn on the steam."""
