@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 
 import aiohttp
-import xmltodict
+import xmltodict  # type: ignore
 
 __author__ = """J. Nick Koston"""
 __email__ = "nick@koston.org"
@@ -26,7 +26,7 @@ STEAM_OFF_LED = 7
 class SteamistStatus:
     temp: int | None
     temp_units: str
-    minute_remain: int
+    minutes_remain: int
     active: bool
 
 
@@ -45,7 +45,7 @@ class Steamist:
         self._host = host
         self._auth_invalid = 0
 
-    async def _get(self, endpoint: str, params=None) -> dict:
+    async def _get(self, endpoint: str, params=None) -> str:
         """Make a get request."""
         response = await self._websession.request(
             "GET",
@@ -57,16 +57,16 @@ class Steamist:
 
     async def async_get_status(self) -> SteamistStatus:
         """Call api to get status."""
-        data = xmltodict.parse(await self._get(STATUS_ENDPOINT))
+        data: dict = xmltodict.parse(await self._get(STATUS_ENDPOINT))
         response = data["response"]
         groups_f = TEMP_REGEX_F.match(response["temp0"])
         groups_c = TEMP_REGEX_C.match(response["temp0"])
         units = "F"
         temp = None
         if groups_f:
-            temp = groups_f[1]
+            temp = int(groups_f[1])
         elif groups_c:
-            temp = groups_c[1]
+            temp = int(groups_c[1])
             units = "C"
         minutes_remain = int(response["time0"])
         active = minutes_remain > 0
