@@ -26,7 +26,8 @@ STEAM_OFF_LED = 7
 class SteamistStatus:
     temp: int | None
     temp_units: str
-    minutes_remaining: int
+    minute_remain: int
+    active: bool
 
 
 class Steamist:
@@ -67,8 +68,10 @@ class Steamist:
         elif groups_c:
             temp = groups_c[1]
             units = "C"
+        minutes_remain = int(response["time0"])
+        active = minutes_remain > 0
         return SteamistStatus(
-            temp=temp, temp_units=units, minutes_remaining=int(response["time0"])
+            temp=temp, temp_units=units, minutes_remain=minutes_remain, active=active
         )
 
     async def async_turn_on_steam(self) -> None:
