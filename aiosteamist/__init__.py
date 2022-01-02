@@ -14,7 +14,8 @@ DEFAULT_REQUEST_TIMEOUT = 10
 STATUS_ENDPOINT = "/status.xml"
 SET_ENDPOINT = "/leds.cgi"
 
-TEMP_REGEX = re.compile("([0-9]+)XF")
+TEMP_REGEX_F = re.compile("([0-9]+)XF")
+TEMP_REGEX_C = re.compile("([0-9]+)XC")
 
 
 STEAM_ON_LED = 6
@@ -24,6 +25,7 @@ STEAM_OFF_LED = 7
 @dataclass
 class SteamistStatus:
     temp: int | None
+    temp_units: str
     minutes_remaining: int
 
 
@@ -56,9 +58,17 @@ class Steamist:
         """Call api to get status."""
         data = xmltodict.parse(await self._get(STATUS_ENDPOINT))
         response = data["response"]
-        groups = TEMP_REGEX.match(response["temp0"])
+        groups_f = TEMP_REGEX_F.match(response["temp0"])
+        groups_c = TEMP_REGEX_C.match(response["temp0"])
+        units = "F"
+        temp = None
+        if groups_f:
+            temp = groups_f[1]
+        elif groups_c:
+            temp = groups_c[1]
+            units = "C"
         return SteamistStatus(
-            temp=groups[1] if groups else None, minutes_remaining=int(response["time0"])
+            temp_units=units, temp_units=temp, minutes_remaining=int(response["time0"])
         )
 
     async def async_turn_on_steam(self, id: int) -> None:
