@@ -58,7 +58,7 @@ class Steamist:
         response = data["response"]
         groups = TEMP_REGEX.match(response["temp0"])
         return SteamistStatus(
-            temp=groups[0] if groups else None, minutes_remaining=int(response["time0"])
+            temp=groups[1] if groups else None, minutes_remaining=int(response["time0"])
         )
 
     async def async_turn_on_steam(self, id: int) -> None:
