@@ -68,7 +68,7 @@ class Steamist:
             temp = groups_c[1]
             units = "C"
         return SteamistStatus(
-            temp_units=units, temp_units=temp, minutes_remaining=int(response["time0"])
+            temp=temp, temp_units=units, minutes_remaining=int(response["time0"])
         )
 
     async def async_turn_on_steam(self, id: int) -> None:
