@@ -71,11 +71,11 @@ class Steamist:
             temp=temp, temp_units=units, minutes_remaining=int(response["time0"])
         )
 
-    async def async_turn_on_steam(self, id: int) -> None:
+    async def async_turn_on_steam(self) -> None:
         """Call to turn on the steam."""
         await self.async_set_led(STEAM_ON_LED)
 
-    async def async_turn_off_steam(self, id: int) -> None:
+    async def async_turn_off_steam(self) -> None:
         """Call to turn off the steam."""
         await self.async_set_led(STEAM_OFF_LED)
 
