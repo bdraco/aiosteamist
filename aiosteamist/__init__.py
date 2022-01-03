@@ -9,7 +9,7 @@ import xmltodict  # type: ignore
 
 __author__ = """J. Nick Koston"""
 __email__ = "nick@koston.org"
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 DEFAULT_REQUEST_TIMEOUT = 10
 STATUS_ENDPOINT = "/status.xml"
