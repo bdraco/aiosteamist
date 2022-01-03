@@ -86,13 +86,13 @@ class Steamist:
         """Call to turn on the steam."""
         await self.async_set_led(STEAM_ON_LED)
         self._transiton_state = True
-        self._transition_complete_time = time.monotinic() + 10
+        self._transition_complete_time = time.monotonic() + 10
 
     async def async_turn_off_steam(self) -> None:
         """Call to turn off the steam."""
         await self.async_set_led(STEAM_OFF_LED)
         self._transiton_state = False
-        self._transition_complete_time = time.monotinic() + 10
+        self._transition_complete_time = time.monotonic() + 10
 
     async def async_set_led(self, id: int) -> None:
         """Call to set a led value."""
