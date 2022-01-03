@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import time
 from dataclasses import dataclass
 
 import aiohttp
@@ -21,6 +22,8 @@ TEMP_REGEX_C = re.compile("([0-9]+)XC")
 STEAM_ON_LED = 6
 STEAM_OFF_LED = 7
 
+NEVER_TIME = -1200
+
 
 @dataclass
 class SteamistStatus:
@@ -40,6 +43,8 @@ class Steamist:
         timeout: int = DEFAULT_REQUEST_TIMEOUT,
     ):
         """Create steamist async api object."""
+        self._transition_complete_time = NEVER_TIME
+        self._transiton_state: bool = False
         self._websession = websession
         self._timeout = timeout
         self._host = host
@@ -69,7 +74,10 @@ class Steamist:
             temp = int(groups_c[1])
             units = "C"
         minutes_remain = int(response["time0"])
-        active = minutes_remain > 0
+        if self._transition_complete_time > time.monotonic():
+            active = self._transiton_state
+        else:
+            active = minutes_remain > 0
         return SteamistStatus(
             temp=temp, temp_units=units, minutes_remain=minutes_remain, active=active
         )
@@ -77,10 +85,14 @@ class Steamist:
     async def async_turn_on_steam(self) -> None:
         """Call to turn on the steam."""
         await self.async_set_led(STEAM_ON_LED)
+        self._transiton_state = True
+        self._transition_complete_time = time.monotinic() + 10
 
     async def async_turn_off_steam(self) -> None:
         """Call to turn off the steam."""
         await self.async_set_led(STEAM_OFF_LED)
+        self._transiton_state = False
+        self._transition_complete_time = time.monotinic() + 10
 
     async def async_set_led(self, id: int) -> None:
         """Call to set a led value."""
