@@ -50,7 +50,7 @@ class Steamist:
         self._timeout = timeout
         self._host = host
         self._auth_invalid = 0
-        self._url = URL(f"http://{self._host}")
+        self._url = URL(f"http://{self._host}")  # noqa
 
     async def _get(self, endpoint: str, params=None) -> str:
         """Make a get request."""
