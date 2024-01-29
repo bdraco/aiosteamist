@@ -23,7 +23,7 @@ TEMP_REGEX_C = re.compile("([0-9]+)XC")
 STEAM_ON_LED = 6
 STEAM_OFF_LED = 7
 
-NEVER_TIME = -1200
+NEVER_TIME = -1200.0
 
 
 @dataclass
