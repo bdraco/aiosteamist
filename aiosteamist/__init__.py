@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 import aiohttp
 import xmltodict  # type: ignore
+from yarl import URL
 
 __author__ = """J. Nick Koston"""
 __email__ = "nick@koston.org"
@@ -49,12 +50,13 @@ class Steamist:
         self._timeout = timeout
         self._host = host
         self._auth_invalid = 0
+        self._url = URL(f"http://{self._host}")
 
     async def _get(self, endpoint: str, params=None) -> str:
         """Make a get request."""
         response = await self._websession.request(
             "GET",
-            f"http://{self._host}{endpoint}",
+            self._url.join(URL(endpoint)),
             timeout=self._timeout,
             params=params,
         )
