@@ -23,7 +23,7 @@ TEMP_REGEX_C = re.compile("([0-9]+)XC")
 STEAM_ON_LED = 6
 STEAM_OFF_LED = 7
 
-NEVER_TIME = -1200
+NEVER_TIME = -1200.0
 
 
 @dataclass
@@ -50,7 +50,7 @@ class Steamist:
         self._timeout = timeout
         self._host = host
         self._auth_invalid = 0
-        self._url = URL(f"http://{self._host}")
+        self._url = URL(f"http://{self._host}")  # noqa
 
     async def _get(self, endpoint: str, params=None) -> str:
         """Make a get request."""
