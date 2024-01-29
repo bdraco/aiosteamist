@@ -51,7 +51,7 @@ pytest-asyncio = ">=0.23.4"
 
 [tool.semantic_release]
 branch = "main"
-version_toml = "pyproject.toml:tool.poetry.version"
+version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variables = [
     "src/aiosteamist/__init__.py:__version__",
 ]
