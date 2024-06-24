@@ -53,7 +53,7 @@ pytest-asyncio = ">=0.23.4"
 branch = "main"
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variables = [
-    "src/aiosteamist/__init__.py:__version__",
+    "aiosteamist/__init__.py:__version__",
 ]
 build_command = "pip install poetry && poetry build"
 
