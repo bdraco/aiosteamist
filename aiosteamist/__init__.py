@@ -10,7 +10,7 @@ from yarl import URL
 
 __author__ = """J. Nick Koston"""
 __email__ = "nick@koston.org"
-__version__ = "0.3.2"
+__version__ = "1.0.0"
 
 DEFAULT_REQUEST_TIMEOUT = 10
 STATUS_ENDPOINT = "/status.xml"
