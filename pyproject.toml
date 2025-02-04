@@ -1,26 +1,30 @@
-[tool.poetry]
+[project]
 name = "aiosteamist"
 version = "1.0.0"
+license = "Apache-2.0"
 description = "Control Steamist steam systems"
-authors = ["J. Nick Koston <nick@koston.org>"]
+authors = [{ name = "J. Nick Koston", email = "nick@koston.org" }]
 readme = "README.md"
-repository = "https://github.com/bdraco/aiosteamist"
-documentation = "https://aiosteamist.readthedocs.io"
+requires-python = ">=3.10"
+dynamic = ["classifiers", "dependencies", "optional-dependencies"]
+
+[project.urls]
+"Repository" = "https://github.com/bdraco/aiosteamist"
+"Documentation" = "https://aiosteamist.readthedocs.io"
+"Bug Tracker" = "https://github.com/bdraco/aiosteamist/issues"
+"Changelog" = "https://aiosteamist.readthedocs.io/changelog.html"
+
+[tool.poetry]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries",
-    "License :: OSI Approved :: Apache Software License",
 ]
 packages = [
     { include = "aiosteamist" },
 ]
-
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/bdraco/aiosteamist/issues"
-"Changelog" = "https://aiosteamist.readthedocs.io/changelog.html"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -39,7 +43,7 @@ docs = [
     "sphinx-rtd-theme",
 ]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = ">=21.11b1"
 flake8 = ">=4.0.0"
 isort = ">=5.10.1"
@@ -51,7 +55,7 @@ pytest-asyncio = ">=0.23.4"
 
 [tool.semantic_release]
 branch = "main"
-version_toml = ["pyproject.toml:tool.poetry.version"]
+version_toml = ["pyproject.toml:project.version"]
 version_variables = [
     "aiosteamist/__init__.py:__version__",
 ]
@@ -66,5 +70,5 @@ profile = "black"
 known_first_party = ["aiosteamist", "tests"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
