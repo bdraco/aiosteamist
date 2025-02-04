@@ -1,6 +1,6 @@
 [project]
 name = "aiosteamist"
-version = "1.0.0"
+version = "1.0.1"
 license = "Apache-2.0"
 description = "Control Steamist steam systems"
 authors = [{ name = "J. Nick Koston", email = "nick@koston.org" }]
