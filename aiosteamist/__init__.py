@@ -169,9 +169,7 @@ class Steamist:
 
         sock = _create_udp_socket()
         transport, _ = await loop.create_datagram_endpoint(
-            lambda: _UDPProtocol(
-                on_response=_on_response if expect_response else None
-            ),
+            lambda: _UDPProtocol(on_response=_on_response if expect_response else None),
             sock=sock,
         )
         destination = (self._host, UDP_PORT)
@@ -303,9 +301,7 @@ class Steamist:
         """Call to turn off the digital shower."""
         await self.async_set_profile(PROFILE_OFF)
 
-    def _async_set_transition(
-        self, state: bool, profile: int | None = None
-    ) -> None:
+    def _async_set_transition(self, state: bool, profile: int | None = None) -> None:
         self._transiton_state = state
         self._transition_profile = profile
         self._transition_complete_time = time.monotonic() + 10
